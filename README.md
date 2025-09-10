@@ -85,7 +85,6 @@ application
             'name': 'Tara Nirmala Anwar',
             'class': 'KKI'
         }
-
         return render(request, "main.html", context)
 
     then i also add the templates folder + i made main.html inside of it. 
