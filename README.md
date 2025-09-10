@@ -22,7 +22,13 @@ A. How I implemented the checklist:
 
     After that I set the production = False in .env and set my DB name, host, port, use, password, schema = tugas_individu and production = True in .env.prod for future push to the PWS. 
 
-    And then I change the setting.py with adding import os, from dotenv import load_dotenv(), ALLOWED_HOSTS = ["localhost", "127.0.0.1"], PRODUCTION = os.getenv('PRODUCTION', 'False').lower() == 'true', and # Database configuration
+    And then I change the setting.py with adding 
+    import os 
+    from dotenv import load_dotenv()
+    ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+    PRODUCTION = os.getenv('PRODUCTION', 'False').lower() == 'true', and # 
+    
+    and Database configuration
         if PRODUCTION:
             # Production: use PostgreSQL with credentials from environment variables
             DATABASES = {
@@ -87,7 +93,7 @@ application
         }
         return render(request, "main.html", context)
 
-    then i also add the templates folder + i made main.html inside of it. 
+    then i also add the templates folder + i made main.html inside of it. = 
     <p>{{ name }}</p>
     <h4>Class:</h4>
     <p>{{ class }}</p>
