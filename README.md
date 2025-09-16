@@ -1,5 +1,72 @@
 Deployed URL: http://tara-nirmala-footballshop.pbp.cs.ui.ac.id
 
+ASSIGNMENT 3
+A. Why do we need data delivery in implementing a platform?
+
+So data from backend can be sent to other parts of the system and apps
+
+
+B. In your opinion, which is better, XML or JSON? Why is JSON more popular than XML?
+
+In my opinion, XML is harder to read and JSON is more simple and fits with JavaScript, so I personally likes JSON more. 
+
+I think JSON is more popular because it is easier, more convinient, and more common.
+
+
+C. What is the purpose of the is_valid() method in Django forms, and why do we need it?
+
+It checks whether the data that user entered into the form is valid so that we can save it to the databse. If not valid then it will show errors.
+
+It is important so that the datas that are collected are valid, correct, and complete
+
+
+D. Why do we need a csrf_token when making forms in Django? What can happen if we don't include a csrf_token in a Django form? How can this be exploited by an attacker?
+
+csrf_token is to prevent CSRF attacks. The token is used to make sure that the request (like adding product) comes from our form not attacker's.
+
+E. Explain how you implemented the checklist above step-by-step (not just following the tutorial).
+
+1. Add 4 news function
+I create a new HTML file (base.html) that act as a base, update the settings.py to recognize base.html, create a productform in forms.py.
+
+then lastly update the views.py to show_main to display all products, create_product to add products, show_product to show product detail, then the 4 new functions show_xml,show_json, show_xml_by_id, and show_json_by_id
+
+2. Create URL routings
+Just add the urlpatterns to 
+urlpatterns = [
+    path('', show_main, name='show_main'),
+    path('create-product/', create_product, name='create_product'),
+    path('product/<str:id>/', show_product, name='show_product'),
+    path('xml/', show_xml, name='show_xml'),
+    path('json/', show_json, name='show_json'),
+    path('xml/<str:id>/', show_xml_by_id, name='show_xml_by_id'),
+    path('json/<str:id>/', show_json_by_id, name='show_json_by_id'),
+]
+
+3. Add button and detail button
+in main.html I added add product buttons to connect form project to create_project and detail button that connect detail page and product
+
+4. create form page to add products
+make a new html called create_product.html and use csrf_token for security
+
+5. create a webpage to display details
+make a new html called product_detail.html to show full info about the product. I also added a button to go back to products. 
+
+6. use postman to test all the URLs
+
+F. Do you have any feedback for the teaching assistants for Tutorial 2?
+No, everything was great and the TAs are very helpful
+
+G. Postman
+![alt text](<Screenshot 2025-09-17 022918.png>)
+![alt text](<Screenshot 2025-09-17 023009.png>)
+![alt text](<Screenshot 2025-09-17 023321.png>)
+![alt text](<Screenshot 2025-09-17 024101.png>)
+
+
+
+
+ASSIGNMENT 2
 A. How I implemented the checklist:
 
 1. Create a new Django project
@@ -83,7 +150,7 @@ application
     Then I run it (python manage.py makemigrations, 
         python manage.py migrate)
 
-5. Create a function in views.py for app name, my name, and my class
+5. Create a function in views.py for app name, my name, and my class.
     from django.shortcuts import render
     def show_main(request):
         context = {
