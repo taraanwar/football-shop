@@ -1,5 +1,81 @@
 Deployed URL: http://tara-nirmala-footballshop.pbp.cs.ui.ac.id
 
+ASSIGNMENT 4
+A.  What is Django's AuthenticationForm? Explain its advantages and disadvantages
+
+Advantages:
+Ready to use, secure defaults, integrates directly with authenticate() and login()
+
+Disadvantages:
+Limited fields, default styling so i need to customize the template
+
+B.  What is the difference between authentication and authorization? How does Django implement the two concepts?
+
+Difference:
+Authentication = verifying who the user is (login)
+Authorization = checking what the user is allowed to do (permissions)
+
+How django implements:
+Authentication = AuthenticationForm, authenticate(), login(), sessions, AuthenticationMiddleware
+Authorization = permissions, groups, per-model perms, and other stuff @login_required to protect pages, @permission_required
+
+
+C. What are the benefits and drawbacks of using sessions and cookies in storing the state of a web application?
+
+Sessions:
+Pros = Data stays server-side, can store more than a cookie's 4KB limit
+Cons = Server has to store session data, needs scaling
+
+Cookies:
+Pros = Simple, good for small bits
+Cons = Small size, live on the client
+
+D. in web development, is the usage of cookies secure by default, or is there any potential risk that we should be aware of? How does Django handle this problem?
+
+No, cookies are not secure by default. Risks:
+Theft via XXS, CSRF, tempering
+
+Django handle this problems by: CSRF protection via middleware + {%csrf_token%}, signed cookied utilities so values can't be tampered with, settings for production : ........_Secure = True, authentication uses a server-side (sessionid)
+
+E. Explain how you implemented the checklist above step-by-step (not just following the tutorial)
+
+1. register, login, logout
+- in views.py import needed stuff like messages, UserCreationForm, etc. 
+- add the register, login, and logout function
+- create a new HTML file named register.html and login.html
+- update the import register, login and logout then add urlpatterns by adding register, login, and logout
+- add <a href="{% url 'main:logout' %}"><button>Logout</button></a> in main.html
+- @login_required(login_url='/login') to make sure it can only be accessed by users who are logged in
+
+
+2. create two users acc and 3 models each
+I created two accounts (taraanwar, and justas), and added 3 products per account using the Add Product button from while logged in as each user
+
+3. connect the product model with the user model 
+- open models.py and add import user
+- in the news model, add user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+- create model migration file and run model migration
+- open views.py and change it to 
+if form.is_valid() and request.method == "POST":
+        product = form.save(commit=False)
+        product.user = request.user
+        product.save()
+        return redirect('main:show_main')
+- modify the show_main function
+- add <a href="?filter=all"><button>All Products</button></a>
+<a href="?filter=my"><button>My Products</button></a> in main.html 
+
+4. show username, last_login
+- change login_user to save a new cookie named last_login which contains the timestamp of the last time the user. add last_login in show_main
+- change the logout_user function to delete the last_login cookie after logging out
+- add last login session in main.html
+- display author name in news_detail.html
+
+5. add-commit-push
+git add.
+git commit -m "Finished"
+git push origin master
+
 ASSIGNMENT 3
 A. Why do we need data delivery in implementing a platform?
 
