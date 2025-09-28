@@ -1,49 +1,49 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<title>Football Shop</title>
+{% endblock meta %}
+
 {% block content %}
-<h1>{{ app_name }}</h1>
-<h4>Name:</h4>
-<p>{{ name }}</p>
-<h4>Class:</h4>
-<p>{{ class }}</p>
-<p>Welcome to the Football Shop assignment 2!</p>
+{% include 'navbar.html' %}
+<div class="bg-gray-50 w-full pt-16 min-h-screen">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-<a href="{% url 'main:create_product' %}">
-  <button>+ Add Product</button>
-</a>
-
-<a href="{% url 'main:logout' %}">
-  <button>Logout</button>
-</a>
-
-<h5>Last login session: {{ last_login }}</h5>
-
-<hr>
-<a href="?filter=all"><button>All Products</button></a>
-<a href="?filter=my"><button>My Products</button></a>
-
-{% if not products %}
-<p>No products yet</p>
-{% else %}
-    {% for p in products %}
-    <div>
-    <h2><a href="{% url 'main:show_product' p.id %}">{{ p.name }}</a></h2>
-
-   <p>
-      <b>Category:</b> {{ p.category }} |
-      <b>Price:</b> Rp {{ p.price }} |
-    </p>
-
-    {% if p.thumbnail %}
-    <img src="{{ p.thumbnail }}" alt="thumbnail" width="150" height="100">
-    <br />
-    {% endif %}
-
-    <p>{{ p.description|truncatewords:25 }}...</p>
-
-    <p><a href="{% url 'main:show_product' p.id %}"><button>Detail</button></a></p>
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-gray-900 mb-2">Products</h1>
+      <p class="text-gray-600">Browse football gear and apparel</p>
     </div>
 
-    <hr>
-    {% endfor %}
-{% endif %}
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 bg-white rounded-lg border border-gray-200 p-4">
+      <div class="flex space-x-3 mb-4 sm:mb-0">
+        <a href="?" class="{% if request.GET.filter == 'all' or not request.GET.filter %} bg-green-600 text-white {% else %} bg-white text-gray-700 border border-gray-300 {% endif %} px-4 py-2 rounded-md font-medium transition-colors hover:bg-green-600 hover:text-white">All Products</a>
+        <a href="?filter=my{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}"
+           class="{% if request.GET.filter == 'my' %} bg-green-600 text-white {% else %} bg-white text-gray-700 border border-gray-300 {% endif %} px-4 py-2 rounded-md font-medium transition-colors hover:bg-green-600 hover:text-white">
+          My Products
+        </a>
+      </div>
+      {% if user.is_authenticated %}
+        <div class="text-sm text-gray-500">Last login: {{ last_login }}</div>
+      {% endif %}
+    </div>
+{% if not products %}
+  <div class="bg-white rounded-lg border border-gray-200 p-12 text-center">
+    <div class="w-60 h-60 mx-auto mb-6">
+      <img src="{% static 'image/no-products.png' %}" alt="No products available" class="w-full h-full object-contain">
+    </div>
+    <p class="text-gray-500 mb-6">Be the first to add a product.</p>
+    <a href="{% url 'main:create_product' %}" class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors">
+      + Add Product
+    </a>
+  </div>
+    {% else %}
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for p in products %}
+          {% include 'card_product.html' with p=p %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</div>
 {% endblock content %}

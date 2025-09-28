@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
-{% block meta %}<title>Create Product - Football Shop</title>{% endblock meta %}
+{% load static %}
+
+{% block meta %}<title>Edit Product - Football Shop</title>{% endblock meta %}
 
 {% block content %}
 {% include 'navbar.html' %}
@@ -8,7 +10,7 @@
     <a href="{% url 'main:show_main' %}" class="text-gray-600 hover:text-gray-900 font-medium transition-colors">← Back to Products</a>
 
     <div class="bg-white rounded-lg border border-gray-200 p-6 sm:p-8 form-style mt-6">
-      <h1 class="text-2xl font-bold text-gray-900 mb-6">Create Product</h1>
+      <h1 class="text-2xl font-bold text-gray-900 mb-6">Edit Product</h1>
 
       <form method="POST" class="space-y-6">
         {% csrf_token %}
@@ -16,15 +18,14 @@
           <div>
             <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ field.label }}</label>
             <div class="w-full">{{ field }}</div>
-            {% for error in field.errors %}
-              <p class="mt-1 text-sm text-red-600">{{ error }}</p>
-            {% endfor %}
+            {% if field.help_text %}<p class="mt-1 text-sm text-gray-500">{{ field.help_text }}</p>{% endif %}
+            {% for error in field.errors %}<p class="mt-1 text-sm text-red-600">{{ error }}</p>{% endfor %}
           </div>
         {% endfor %}
 
         <div class="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-200">
           <a href="{% url 'main:show_main' %}" class="order-2 sm:order-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-md font-medium hover:bg-gray-50 text-center">Cancel</a>
-          <button type="submit" class="order-1 sm:order-2 flex-1 bg-green-600 text-white px-6 py-3 rounded-md font-medium hover:bg-green-700">Save Product</button>
+          <button type="submit" class="order-1 sm:order-2 flex-1 bg-green-600 text-white px-6 py-3 rounded-md font-medium hover:bg-green-700">Update Product</button>
         </div>
       </form>
     </div>

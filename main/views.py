@@ -10,7 +10,6 @@ from django.core import serializers
 from django.shortcuts import render, redirect, get_object_or_404
 from main.forms import ProductForm
 from main.models import Product
-
 @login_required(login_url='/login')
 def show_main(request):
     filter_type = request.GET.get("filter", "all")
@@ -20,15 +19,22 @@ def show_main(request):
     else:
         products = Product.objects.filter(user=request.user)
 
-    context = {
-        'app_name' : 'Football Shop',
-        'name': 'Tara Nirmala Anwar',
-        'class': 'KKI',
-        'products': products,
-        'last_login': request.COOKIES.get('last_login', 'Never')
-    }
+    category = request.GET.get("category")
+    if category:
+        products = products.filter(category__iexact=category.strip())
 
+    context = {
+        "app_name": "Football Shop",
+        "name": request.user.username,
+        "class": "KKI",
+        "npm": "2406365276",
+        "products": products,
+        "last_login": request.COOKIES.get("last_login", "Never"),
+        "current_category": category or "all",
+        "current_filter": filter_type,
+    }
     return render(request, "main.html", context)
+
 
 @login_required(login_url='/login')
 def create_product(request):
@@ -108,3 +114,19 @@ def logout_user(request):
     response = HttpResponseRedirect(reverse('main:login'))
     response.delete_cookie('last_login')
     return response
+
+def edit_product(request, id):
+    product = get_object_or_404(Product, pk=id)
+    form = ProductForm(request.POST or None, instance=product)
+
+    if form.is_valid() and request.method == 'POST':
+        form.save()
+        return redirect('main:show_main')
+
+    context = {'form': form}
+    return render(request, "edit_product.html", context)
+
+def delete_product(request, id):
+    product = get_object_or_404(Product, pk=id)
+    product.delete()
+    return HttpResponseRedirect(reverse('main:show_main'))

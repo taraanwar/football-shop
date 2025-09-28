@@ -9,7 +9,11 @@ class Product(models.Model):
     price = models.IntegerField()
     description = models.TextField()
     thumbnail = models.URLField()
-    category = models.CharField(max_length=100)
+    CATEGORY_CHOICES = [
+        ("shoes", "Shoes"),
+        ("jersey", "Jersey"),
+    ]
+    category = models.CharField(max_length=100, choices=CATEGORY_CHOICES)
     is_featured = models.BooleanField(default=False)
 
     def __str__(self):
