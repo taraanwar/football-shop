@@ -1,5 +1,65 @@
 Deployed URL: http://tara-nirmala-footballshop.pbp.cs.ui.ac.id
 
+
+ASSIGNMENT 5
+A. CSS Selector Priority: If multiple CSS selectors target an HTML element, explain the priority order for CSS selector selection
+
+Priority order =
+1. Inline styles 
+2. IDs
+3. Classes, attributes, and pseudo-classes
+4. Elements and pseudo-elements
+5. last declared rule if the specificity is the same
+
+B. Responsive Design:
+Why is responsive design important in web application development?
+Provide examples of applications that have and haven't implemented responsive design
+Explain the reasons behind your examples
+
+It's important because it ensures that a website adapts its layout to a different screen sized so it can be accessed in different devices, avoids maintaining seperate mobile and desktop version, improves usability and accessibility
+
+responsive design = Shopee. reasons = it uses CSS media queries, flexbox, and grid to adapt layouts. So through dekstop web, it will shows 5 grids in a row with the filters specification on the left side. While on mobile website, there are only 2 products in each row with a filter button next to the search. 
+
+unresponsive design = old websites version like old KRL and goverment websites. reasons = it uses static pixel widths. So, users must zoom in and out on mobile because the layout is fixed width
+
+C. Box Model: Explain the differences between margin, border, and padding, and how to implement them
+
+Margin = space outside the border
+Border = the visible edge around the element
+Padding = space inside the border between content and border
+
+how to implement = 
+.card {
+    margin: 10px; 
+    border: 10px solid black;
+    padding: 10px;
+}
+
+D. Layout Systems: Explain the concepts of flexbox and grid layout along with their uses
+
+Flexbox = one dimensional layout system (row or column) and it is best for aligning items, navbar, and simple lists.
+
+Grid = two dimensional system (row and column) and it is best for entire page layouts and dashboards
+
+E. Implementation steps
+
+1. Core functionality = added edit_product and delete_product function to views.py, import them in urls.py, add the url patj to urlpatterns, and then add the button in main.html
+
+2.1 Page customization
+Used TailwindCSS for stylinng. Customized the login.html and register.html with centered forms, colors, and error displays, styled create_add product.html and edit_product.html with consistent form-style classes, styled product_detail,html with a clean layout for details and images
+
+2.2 Product list page
+Added condition: if no product, then show no.product.png and give an offer to create product. If product exist, display using custom cards with square iamges, title, bold price, descriptions, then actions.
+
+2.3 Product cards
+Buttons for Detail, Edit, Delete depending on ownership. And add category and badges on top. 
+
+2.4 Navigation bar = created responsive with TailwindCSS, created navbar.html, link it to main.html.
+Then I configured static files in settings.py and then create global.css file in /static/css. Then I connect global.css and tailwind to base.html.
+In global.css, i add custom styling. Then I style the navbar. Dekstop = horizontal menu with username and logout on right. Movile = collapisble hamburger menu. Added class-npm below username
+
+3. Documentation and answered the questions yippie!
+
 ASSIGNMENT 4
 A.  What is Django's AuthenticationForm? Explain its advantages and disadvantages
 
