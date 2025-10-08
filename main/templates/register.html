@@ -85,4 +85,20 @@
     </div>
   </div>
 </div>
+<script>
+  const regForm = document.querySelector('form');
+  regForm.addEventListener('submit', async function(e){
+    e.preventDefault();
+    const body = new FormData(regForm);
+    const res = await fetch("{% url 'main:register_ajax' %}", { method: 'POST', body });
+    if (res.ok) {
+      showToast('Registered successfully!', '', 'success');
+      window.location.href = "{% url 'main:login' %}";
+    } else {
+      const data = await res.json().catch(()=>({detail:'Register failed'}));
+      showToast(data.detail || 'Register failed', '', 'error');
+    }
+  });
+</script>
+
 {% endblock content %}

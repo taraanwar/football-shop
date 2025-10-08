@@ -79,4 +79,20 @@
     </div>
   </div>
 </div>
+<script>
+  const form = document.querySelector('form');
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    const body = new FormData(form);
+    const res = await fetch("{% url 'main:login_ajax' %}", { method: 'POST', body });
+    if (res.ok) {
+      showToast('Logged in!', '', 'success');
+      window.location.href = "{% url 'main:show_main' %}";
+    } else {
+      const data = await res.json().catch(()=>({detail:'Login failed'}));
+      showToast(data.detail || 'Login failed', '', 'error');
+    }
+  });
+</script>
+
 {% endblock content %}

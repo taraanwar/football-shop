@@ -1,6 +1,38 @@
 Deployed URL: http://tara-nirmala-footballshop.pbp.cs.ui.ac.id
 
 
+ASSIGNMENT 6
+A. What is the difference between synchronous request and asynchronous request?
+
+Synchronus = the browser waits for the server response so the UI is blocked until it returns
+
+Asynchronous = browser sends a background request so the UI stays interactive
+
+B. How does AJAX work in Django (request–response flow)?
+
+1. JS triggers fetch () to a Django URL
+2. Django view processes input and returns JSON
+3. JS then/await handler reads the JSON and updates the DOM wihtout full reload
+
+C. What are the advantages of using AJAX compared to regular rendering in Django?
+
+1. Faster performance becasue no reload
+2. Smoother UX
+3. Easier incremental updates
+
+D. How do you ensure security when using AJAX for Login and Register features in Django?
+
+1. Use Django auth server side
+2. Validate inputs with 
+3. UserCreationForm for register
+4. Send CSRF tokens with requests and avoid @csrf_exempt
+
+E. How does AJAX affect user experience (UX) on websites?
+
+1. Immediate feedback
+2. User stay in context
+3. Speed imrpovements
+
 ASSIGNMENT 5
 A. CSS Selector Priority: If multiple CSS selectors target an HTML element, explain the priority order for CSS selector selection
 
@@ -20,7 +52,7 @@ It's important because it ensures that a website adapts its layout to a differen
 
 responsive design = Shopee. reasons = it uses CSS media queries, flexbox, and grid to adapt layouts. So through dekstop web, it will shows 5 grids in a row with the filters specification on the left side. While on mobile website, there are only 2 products in each row with a filter button next to the search. 
 
-unresponsive design = old websites version like old KRL and goverment websites. reasons = it uses static pixel widths. So, users must zoom in and out on mobile because the layout is fixed width
+unresponsive design = old websites version like old KRL and goverment websites.reasons = it uses static pixel widths. So, users must zoom in and out on mobile because the layout is fixed width
 
 C. Box Model: Explain the differences between margin, border, and padding, and how to implement them
 

@@ -1,0 +1,257 @@
+<!-- Modal -->
+<div id="crudModal" class="hidden fixed inset-0 z-50 w-full flex items-center justify-center bg-gray-800 bg-opacity-50">
+  <div id="crudModalContent" class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/5 md:w-1/2 lg:w-2/5 xl:w-1/3 max-h-screen overflow-y-auto">
+    <!-- Modal header -->
+    <div class="flex items-center justify-between p-4 border-b">
+      <div>
+        <h3 class="text-xl font-semibold text-gray-900">
+          Create New Product
+        </h3>
+        <p class="text-sm text-gray-600 mt-1">Add football gear to your shop</p>
+      </div>
+      <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" onclick="hideModal()">
+        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+        </svg>
+        <span class="sr-only">Close modal</span>
+      </button>
+    </div>
+
+    <!-- Modal body -->
+    <div class="px-6 py-4 space-y-6 form-style">
+      <!-- NOTE: keep ids/names simple & match Product fields -->
+      <form id="productForm">
+        <div class="mb-4">
+          <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+          <input type="text" id="name" name="name" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2" placeholder="e.g. Nike Mercurial" required>
+        </div>
+
+        <div class="mb-4">
+          <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
+          <input type="number" id="price" name="price" min="0" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2" placeholder="e.g. 750000" required>
+        </div>
+
+        <div class="mb-4">
+          <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+          <textarea id="description" name="description" rows="3" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2" placeholder="Short product description" required></textarea>
+        </div>
+
+        <div class="mb-4">
+          <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
+          <select id="category" name="category" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2" required>
+            <option value="">Choose a category</option>
+            <option value="shoes">Shoes</option>
+            <option value="jersey">Jersey</option>
+          </select>
+        </div>
+
+        <div class="mb-4">
+          <label for="thumbnail" class="block text-sm font-medium text-gray-700">Thumbnail URL</label>
+          <input type="url" id="thumbnail" name="thumbnail" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2" placeholder="https://example.com/image.jpg">
+        </div>
+
+        <div class="mb-4">
+          <div class="flex items-center">
+            <input id="is_featured" name="is_featured" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded">
+            <label for="is_featured" class="ml-2 text-sm font-medium text-gray-900">Featured Product</label>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Modal footer -->
+    <div class="flex flex-col sm:flex-row gap-4 p-6 border-t border-gray-200 rounded-b">
+      <button type="button" id="cancelButton" class="order-2 sm:order-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-md font-medium hover:bg-gray-50 transition-colors text-center" onclick="hideModal()">Cancel</button>
+      <!-- we will wire this to AJAX in the next step -->
+      <button type="submit" id="submitProduct" form="productForm" class="order-1 sm:order-2 flex-1 bg-green-600 text-white px-6 py-3 rounded-md font-medium hover:bg-green-700 transition-colors">Save Product</button>
+    </div>
+  </div>
+</div>
+
+<!-- Update Modal -->
+<div id="updateModal" class="hidden fixed inset-0 z-50 w-full flex items-center justify-center bg-gray-800 bg-opacity-50">
+  <div id="updateModalContent" class="bg-white rounded-lg shadow-lg w-5/6 sm:w-3/5 md:w-1/2 lg:w-2/5 xl:w-1/3 max-h-screen overflow-y-auto">
+    <div class="flex items-center justify-between p-4 border-b">
+      <div>
+        <h3 class="text-xl font-semibold text-gray-900">Update Product</h3>
+        <p class="text-sm text-gray-600 mt-1">Edit product information</p>
+      </div>
+      <button type="button" class="text-gray-400 hover:bg-gray-200 rounded-lg p-1.5" onclick="hideUpdateModal()">
+        ✕
+      </button>
+    </div>
+    <div class="px-6 py-4 space-y-6 form-style">
+      <form id="updateProductForm">
+        <input type="hidden" id="update_id" name="id">
+        <div class="mb-4">
+          <label for="update_name" class="block text-sm font-medium text-gray-700">Name</label>
+          <input type="text" id="update_name" name="name" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2" required>
+        </div>
+        <div class="mb-4">
+          <label for="update_price" class="block text-sm font-medium text-gray-700">Price</label>
+          <input type="number" id="update_price" name="price" min="0" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2" required>
+        </div>
+        <div class="mb-4">
+          <label for="update_description" class="block text-sm font-medium text-gray-700">Description</label>
+          <textarea id="update_description" name="description" rows="3" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2" required></textarea>
+        </div>
+        <div class="mb-4">
+          <label for="update_category" class="block text-sm font-medium text-gray-700">Category</label>
+          <select id="update_category" name="category" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2" required>
+            <option value="shoes">Shoes</option>
+            <option value="jersey">Jersey</option>
+          </select>
+        </div>
+        <div class="mb-4">
+          <label for="update_thumbnail" class="block text-sm font-medium text-gray-700">Thumbnail URL</label>
+          <input type="url" id="update_thumbnail" name="thumbnail" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
+        </div>
+        <div class="mb-4">
+          <div class="flex items-center">
+            <input id="update_is_featured" name="is_featured" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded">
+            <label for="update_is_featured" class="ml-2 text-sm font-medium text-gray-900">Featured Product</label>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="flex flex-col sm:flex-row gap-4 p-6 border-t border-gray-200 rounded-b">
+      <button type="button" class="order-2 sm:order-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50" onclick="hideUpdateModal()">Cancel</button>
+      <button type="submit" form="updateProductForm" class="order-1 sm:order-2 flex-1 bg-green-600 text-white px-6 py-3 rounded-md hover:bg-green-700">Update Product</button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirm Modal -->
+<div id="deleteModal" class="hidden fixed inset-0 z-50 w-full flex items-center justify-center bg-gray-800 bg-opacity-50">
+  <div class="bg-white rounded-lg shadow-lg w-[90%] sm:w-[420px]">
+    <div class="p-5 border-b">
+      <h3 class="text-lg font-semibold">Delete Product</h3>
+      <p class="text-sm text-gray-600 mt-1">Are you sure you want to delete this product?</p>
+    </div>
+    <div class="p-5">
+      <input type="hidden" id="delete_id">
+      <p class="text-gray-700">This action cannot be undone.</p>
+    </div>
+    <div class="flex gap-3 p-5 border-t">
+      <button class="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50" onclick="hideDeleteModal()">Cancel</button>
+      <button class="ml-auto px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700" onclick="confirmDelete()">Delete</button>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  function showModal() {
+    const modal = document.getElementById('crudModal');
+    const modalContent = document.getElementById('crudModalContent');
+    modal.classList.remove('hidden');
+    setTimeout(() => {
+      modalContent.classList.remove('opacity-0', 'scale-95');
+      modalContent.classList.add('opacity-100', 'scale-100');
+    }, 50);
+  }
+
+  function hideModal() {
+    const modal = document.getElementById('crudModal');
+    const modalContent = document.getElementById('crudModalContent');
+    modalContent.classList.remove('opacity-100', 'scale-100');
+    modalContent.classList.add('opacity-0', 'scale-95');
+    setTimeout(() => {
+      modal.classList.add('hidden');
+    }, 150);
+  }
+  async function addProductEntry() {
+    await fetch("{% url 'main:add_product_entry_ajax' %}", {
+      method: "POST",
+      body: new FormData(document.querySelector('#productForm')),
+    });
+
+    // reset + close
+    document.getElementById("productForm").reset();
+    hideModal();
+
+    // toast (uses your toast.html/js from earlier)
+    showToast('Product added successfully!', '', 'success');
+
+    // notify main page to refresh list (no full reload)
+    document.dispatchEvent(new CustomEvent('productAdded'));
+
+    return false;
+  }
+
+  // intercept native form submit
+  document.getElementById("productForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    addProductEntry();
+  });
+
+   // update modal controls
+  function showUpdateModal() {
+    document.getElementById('updateModal').classList.remove('hidden');
+    setTimeout(() => {
+      document.getElementById('updateModalContent')?.classList?.add('opacity-100','scale-100');
+    }, 50);
+  }
+  function hideUpdateModal() {
+    document.getElementById('updateModal').classList.add('hidden');
+  }
+
+  // load product data, prefill, then open
+  async function openUpdateModal(productId) {
+    const endpoint = `{% url 'main:show_json_by_id' '00000000-0000-0000-0000-000000000000' %}`.replace('00000000-0000-0000-0000-000000000000', productId);
+    const res = await fetch(endpoint, { headers: { 'Accept': 'application/json' }});
+    if (!res.ok) {
+      showToast('Failed to load product', '', 'error');
+      return;
+    }
+    const p = await res.json();
+    // prefill
+    document.getElementById('update_id').value = p.id;
+    document.getElementById('update_name').value = p.name || '';
+    document.getElementById('update_price').value = p.price ?? 0;
+    document.getElementById('update_description').value = p.description || '';
+    document.getElementById('update_category').value = p.category || 'shoes';
+    document.getElementById('update_thumbnail').value = p.thumbnail || '';
+    document.getElementById('update_is_featured').checked = !!p.is_featured;
+
+    showUpdateModal();
+  }
+
+  // submit update via AJAX
+  document.getElementById('updateProductForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const id = document.getElementById('update_id').value;
+    const body = new FormData(document.getElementById('updateProductForm'));
+    const url = `{% url 'main:update_product_entry_ajax' '00000000-0000-0000-0000-000000000000' %}`.replace('00000000-0000-0000-0000-000000000000', id);
+
+    const res = await fetch(url, { method: 'POST', body });
+    if (!res.ok) {
+      showToast('Update failed', '', 'error');
+      return;
+    }
+    hideUpdateModal();
+    showToast('Product updated!', '', 'success');
+    document.dispatchEvent(new CustomEvent('productAdded')); // reuse same event to refresh list
+  });
+
+  // delete modal
+  function openDeleteModal(productId) {
+    document.getElementById('delete_id').value = productId;
+    document.getElementById('deleteModal').classList.remove('hidden');
+  }
+  function hideDeleteModal() {
+    document.getElementById('deleteModal').classList.add('hidden');
+  }
+  async function confirmDelete() {
+    const id = document.getElementById('delete_id').value;
+    const url = `{% url 'main:delete_product_entry_ajax' '00000000-0000-0000-0000-000000000000' %}`.replace('00000000-0000-0000-0000-000000000000', id);
+    const res = await fetch(url, { method: 'POST' });
+    if (!res.ok) {
+      showToast('Delete failed', '', 'error');
+      return;
+    }
+    hideDeleteModal();
+    showToast('Product deleted!', '', 'success');
+    document.dispatchEvent(new CustomEvent('productAdded')); // refresh list
+  }
+</script>
